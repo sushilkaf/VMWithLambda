@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,17 +40,25 @@ fun Screen2(
             TopAppBar(
                 title = { Text("Screen 2") },
                 navigationIcon = {
-                    IconButton(onClick = { viewModel.onBack() }) {
+                    IconButton(
+                        onClick = { viewModel.triggerNavigationEvent(NavigationEvent.OnBack) }
+                    ) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
                     TextButton(
-                        onClick = { viewModel.onCancel() }
+                        onClick = { viewModel.triggerNavigationEvent(NavigationEvent.OnCancel) }
                     ) {
                         Text("Cancel")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Blue.copy(alpha = 0f),
+                    titleContentColor = Color.Black,
+                    navigationIconContentColor = Color.Black,
+                    actionIconContentColor = Color.Black
+                )
             )
         }
     ) { innerPadding ->

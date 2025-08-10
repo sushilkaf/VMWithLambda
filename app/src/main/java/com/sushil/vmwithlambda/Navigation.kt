@@ -1,26 +1,38 @@
 package com.sushil.vmwithlambda
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-    val onBack: () -> Unit = { navController.navigateUp() }
-    val onCancel: () -> Unit = {
-        navController.navigate("screen1") {
-            popUpTo("screen1") { inclusive = true }
+    val mainViewModel: MainViewModel = viewModel()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.navigationEvents.collectLatest { event ->
+            when (event) {
+                is NavigationEvent.OnBack -> {
+                    navController.navigateUp()
+                }
+                is NavigationEvent.OnCancel -> {
+                    navController.navigate(
+                        "Screen1"
+                    ) {
+                        popUpTo("Screen1") {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
         }
     }
-
-    val mainViewModel: MainViewModel = viewModel(
-        factory = MainViewModelFactory(onBack, onCancel)
-    )
 
     NavHost(
         navController = navController,
