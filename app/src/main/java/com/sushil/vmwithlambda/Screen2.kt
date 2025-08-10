@@ -39,13 +39,13 @@ fun Screen2(
             TopAppBar(
                 title = { Text("Screen 2") },
                 navigationIcon = {
-                    IconButton(onClick = { viewModel.onBack() }) {
+                    IconButton(onClick = { viewModel.onBack(navController) }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
                     TextButton(
-                        onClick = { viewModel.onCancel() }
+                        onClick = { viewModel.onCancel(navController) }
                     ) {
                         Text("Cancel")
                     }
