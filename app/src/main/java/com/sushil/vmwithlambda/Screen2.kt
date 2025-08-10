@@ -39,19 +39,13 @@ fun Screen2(
             TopAppBar(
                 title = { Text("Screen 2") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { viewModel.onBack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
                     TextButton(
-                        onClick = {
-                            navController.navigate("screen1") {
-                                popUpTo("screen1") {
-                                    inclusive = true
-                                }
-                            }
-                        }
+                        onClick = { viewModel.onCancel() }
                     ) {
                         Text("Cancel")
                     }

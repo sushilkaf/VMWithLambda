@@ -1,7 +1,6 @@
 package com.sushil.vmwithlambda
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,7 +11,16 @@ import androidx.navigation.compose.rememberNavController
 fun Navigation() {
     val navController = rememberNavController()
 
-    val mainViewModel: MainViewModel = viewModel()
+    val onBack: () -> Unit = { navController.navigateUp() }
+    val onCancel: () -> Unit = {
+        navController.navigate("screen1") {
+            popUpTo("screen1") { inclusive = true }
+        }
+    }
+
+    val mainViewModel: MainViewModel = viewModel(
+        factory = MainViewModelFactory(onBack, onCancel)
+    )
 
     NavHost(
         navController = navController,
